@@ -1,70 +1,105 @@
-# Getting Started with Create React App
+# Introduction
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is a series of projects aimed to learn and improve front-end web development. This
+was taken from [Tutorial: Intro to React](https://en.reactjs.org/tutorial/tutorial.html) in
+the Official React website
 
-## Available Scripts
+To run the project run:
+```
+$ npm start
+```
 
-In the project directory, you can run:
+# What I've learned from building this website
 
-### `npm start`
+Structuring a project in React seems intuitive, even more than I thought before beginning this tutorial. The basic building blocks that I used throughout this project were:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+* React.Component
+* React Function Components
+* Props and State
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+I'll go through this in a bit of detail and my observations around them
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+# React.Component
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Checkout the official docs [here](https://en.reactjs.org/docs/react-component.html).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+So what I've noticed is that REact lets you define components as classes or functions. Components
+defined as classes, in this case one of this basic classes is the "React.Component" interface. The only method required to implement the React.Component interface is the render() method.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+class Game extends React.Component {
 
-### `npm run eject`
+    constructor(props) {
+        super(props);
+        this.state = {
+            // ... attributes for the component ...
+        };
+    }
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+    render () {
+        return (
+            // ... JSX definition of what we want to show on screen ...
+        );
+    }
+}
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# React Function Components
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+They are basically defined as normal functions, but take props as an argument. They return a JSX
+element that then the parent components can render inside their render() methods. We call them
+"function components" because they are literally JavaScript functions:
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+```
+function Square(props) {
+    return (
+        <button className='square' onClick={() => props.onClick() }>
+            { props.value }
+        </button>
+    );
+}
+```
 
-## Learn More
+# Props and State
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Props stands for properties. One very important aspect of them is that they are read-only.
+This means that this data is immutable and comes with a number of benefits:
+* State is easy to track - we can come back in time with very simple logic.
+* Changes are always safe
+* Makes all functions "pure" functions.
+    - All inputs always return the same output
+    - Functions do not attempt to modify their inputs
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+State basically define the particular state of a React Component. Since React components
+that require it need bo te initialized with props, we can then modify the value of this through a
+particular state of the React Component. 
 
-### Code Splitting
+```
+class Square extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: null,
+    };
+  }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+  render() {
+    return (
+      <button className="square" onClick={() => this.setState({value: 'X'})}>
+        {this.state.value}
+      </button>
+    );
+  }
+}
+```
 
-### Analyzing the Bundle Size
+As you can see we can modify the initial state defined with "null" using the setState method for 
+React.Component.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+There are a couple of special methods to the component class that we didn't explore in enough depth:
+* componentDidMount()
+* componentWillUnmount()
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+This are called lifecycle methods and hopefully we will cover them in the future.
